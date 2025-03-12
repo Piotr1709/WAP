@@ -1,0 +1,134 @@
+classDiagram
+    class User {
+        +userId: int
+        +username: string
+        +email: string
+        +password: string
+        +createAccount()
+        +login()
+        +updateProfile()
+    }
+    
+    class TournamentOrganizer {
+        +organizerId: int
+        +createTournament()
+        +managePlayers()
+        +assignReferees()
+        +updateScores()
+        +generateBracket()
+        +adjustSchedule()
+    }
+    
+    class Player {
+        +playerId: int
+        +name: string
+        +surname: string
+        +winPercentage: float
+        +registerForTournament()
+        +viewSchedule()
+        +checkPerformanceStats()
+    }
+    
+    class Referee {
+        +refereeId: int
+        +name: string
+        +surname: string
+        +viewAssignedMatches()
+        +enterMatchComments()
+    }
+    
+    class Spectator {
+        +spectatorId: int
+        +viewTournaments()
+        +trackFavoritePlayers()
+        +viewScores()
+    }
+    
+    class Tournament {
+        +tournamentId: int
+        +name: string
+        +startDate: date
+        +endDate: date
+        +format: string
+        +location: string
+        +maxPlayers: int
+        +status: string
+        +createDraws()
+        +updateBrackets()
+        +generateSchedule()
+    }
+    
+    class Match {
+        +matchId: int
+        +tournamentId: int
+        +player1Id: int
+        +player2Id: int
+        +refereeId: int
+        +stadiumId: int
+        +date: date
+        +time: time
+        +status: string
+        +updateScore()
+        +assignReferee()
+        +setSchedule()
+    }
+    
+    class Score {
+        +scoreId: int
+        +matchId: int
+        +set1Player1: int
+        +set1Player2: int
+        +set2Player1: int
+        +set2Player2: int
+        +set3Player1: int
+        +set3Player2: int
+        +winner: int
+        +calculateWinner()
+        +updateStats()
+    }
+    
+    class Stadium {
+        +stadiumId: int
+        +name: string
+        +location: string
+        +capacity: int
+        +surface: string
+        +isAvailable: boolean
+        +checkAvailability()
+    }
+    
+    class Bracket {
+        +bracketId: int
+        +tournamentId: int
+        +round: int
+        +matchIds: List~int~
+        +generateAutomatically()
+        +updateAfterMatch()
+    }
+    
+    class Statistics {
+        +statisticsId: int
+        +playerId: int
+        +tournamentId: int
+        +matchesPlayed: int
+        +matchesWon: int
+        +setsWon: int
+        +gamesWon: int
+        +calculateWinPercentage()
+        +updateAfterMatch()
+    }
+    
+    User <|-- TournamentOrganizer
+    User <|-- Player
+    User <|-- Referee
+    User <|-- Spectator
+    
+    TournamentOrganizer "1" -- "0..*" Tournament : creates/manages
+    Tournament "1" -- "0..*" Match : contains
+    Tournament "1" -- "1" Bracket : has
+    Match "1" -- "1" Score : records
+    Match "0..*" -- "1" Stadium : played at
+    Match "0..*" -- "1" Referee : officiated by
+    Match "1" -- "2" Player : played by
+    Player "1" -- "0..*" Statistics : has
+    Tournament "0..*" -- "0..*" Player : participates in
