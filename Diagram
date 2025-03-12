@@ -11,6 +11,8 @@ classDiagram
     
     class TournamentOrganizer {
         +organizerId: int
+        +firstName: string
+        +lastName: string
         +createTournament()
         +managePlayers()
         +assignReferees()
@@ -21,8 +23,8 @@ classDiagram
     
     class Player {
         +playerId: int
-        +name: string
-        +surname: string
+        +firstName: string
+        +lastName: string
         +winPercentage: float
         +registerForTournament()
         +viewSchedule()
@@ -31,8 +33,8 @@ classDiagram
     
     class Referee {
         +refereeId: int
-        +name: string
-        +surname: string
+        +firstName: string
+        +lastName: string
         +viewAssignedMatches()
         +enterMatchComments()
     }
@@ -50,19 +52,22 @@ classDiagram
         +startDate: date
         +endDate: date
         +format: string
+        +type: string
         +location: string
         +maxPlayers: int
         +status: string
         +createDraws()
         +updateBrackets()
         +generateSchedule()
+        +isSingles()
+        +isDoubles()
     }
     
     class Match {
         +matchId: int
         +tournamentId: int
-        +player1Id: int
-        +player2Id: int
+        +side1Id: int
+        +side2Id: int
         +refereeId: int
         +stadiumId: int
         +date: date
@@ -73,15 +78,33 @@ classDiagram
         +setSchedule()
     }
     
+    class Team {
+        +teamId: int
+        +name: string
+        +player1Id: int
+        +player2Id: int
+        +registerForTournament()
+        +viewSchedule()
+    }
+    
+    class Side {
+        +sideId: int
+        +type: string
+        +playerId: int
+        +teamId: int
+        +isTeam()
+        +isSinglePlayer()
+    }
+    
     class Score {
         +scoreId: int
         +matchId: int
-        +set1Player1: int
-        +set1Player2: int
-        +set2Player1: int
-        +set2Player2: int
-        +set3Player1: int
-        +set3Player2: int
+        +set1Side1: int
+        +set1Side2: int
+        +set2Side1: int
+        +set2Side2: int
+        +set3Side1: int
+        +set3Side2: int
         +winner: int
         +calculateWinner()
         +updateStats()
@@ -108,7 +131,8 @@ classDiagram
     
     class Statistics {
         +statisticsId: int
-        +playerId: int
+        +entityId: int
+        +entityType: string
         +tournamentId: int
         +matchesPlayed: int
         +matchesWon: int
@@ -129,6 +153,11 @@ classDiagram
     Match "1" -- "1" Score : records
     Match "0..*" -- "1" Stadium : played at
     Match "0..*" -- "1" Referee : officiated by
-    Match "1" -- "2" Player : played by
+    Match "1" -- "2" Side : contested by
+    Side "0..1" -- "1" Player : may be
+    Side "0..1" -- "1" Team : may be
+    Team "1" -- "2" Player : consists of
     Player "1" -- "0..*" Statistics : has
-    Tournament "0..*" -- "0..*" Player : participates in
+    Team "1" -- "0..*" Statistics : has
+    Tournament "0..*" -- "0..*" Player : has singles participants
+    Tournament "0..*" -- "0..*" Team : has doubles participants
