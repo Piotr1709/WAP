@@ -1,0 +1,184 @@
+package com.uep.wap.diagram;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+@Entity
+@Table(name = "spectators")
+public class Spectator {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long spectatorId;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "spectator_tournament",
+        joinColumns = @JoinColumn(name = "spectator_id"),
+        inverseJoinColumns = @JoinColumn(name = "tournament_id")
+    )
+    private List<Tournament> followedTournaments = new ArrayList<>();
+    
+    @ManyToMany
+    @JoinTable(
+        name = "spectator_player",
+        joinColumns = @JoinColumn(name = "spectator_id"),
+        inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private List<Player> favoritePlayers = new ArrayList<>();
+    
+    // Default constructor required by JPA
+    public Spectator() {
+    }
+    
+    public Spectator(User user) {
+        this.user = user;
+    }
+    
+    public Long getSpectatorId() {
+        return spectatorId;
+    }
+    
+    public void setSpectatorId(Long spectatorId) {
+        this.spectatorId = spectatorId;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public List<Tournament> getFollowedTournaments() {
+        return followedTournaments;
+    }
+    
+    public void setFollowedTournaments(List<Tournament> followedTournaments) {
+        this.followedTournaments = followedTournaments;
+    }
+    
+    public List<Player> getFavoritePlayers() {
+        return favoritePlayers;
+    }
+    
+    public void setFavoritePlayers(List<Player> favoritePlayers) {
+        this.favoritePlayers = favoritePlayers;
+    }
+    
+    /**
+     * View details of a tournament
+     * 
+     * @param tournament The tournament to view
+     * @return Tournament details including matches, players, and results
+     */
+    public Tournament viewTournament(Tournament tournament) {
+        // Add the tournament to followed tournaments if not already there
+        if (!followedTournaments.contains(tournament)) {
+            followedTournaments.add(tournament);
+        }
+        
+        // In a real implementation, this would return a detailed view model
+        // For now, we simply return the tournament object
+        return tournament;
+    }
+    
+    /**
+     * Track a player as favorite
+     * 
+     * @param player The player to track
+     */
+    public void trackFavoritePlayer(Player player) {
+        if (!favoritePlayers.contains(player)) {
+            favoritePlayers.add(player);
+        }
+    }
+    
+    /**
+     * Remove a player from favorites
+     * 
+     * @param player The player to untrack
+     */
+    public void untrackFavoritePlayer(Player player) {
+        favoritePlayers.remove(player);
+    }
+    
+    /**
+     * Get a list of matches involving favorite players
+     * 
+     * @return List of matches involving favorite players
+     */
+    public List<Match> getFavoritePlayerMatches() {
+        List<Match> matches = new ArrayList<>();
+        
+        for (Player player : favoritePlayers) {
+            // Get matches where the player is participating
+            for (Tournament tournament : followedTournaments) {
+                matches.addAll(player.viewSchedule(tournament));
+            }
+        }
+        
+        return matches;
+    }
+    
+    /**
+     * View score of a specific match
+     * 
+     * @param match The match to view the score for
+     * @return The score of the match
+     */
+    public Score viewScore(Match match) {
+        // In a real implementation, this might include additional logic
+        // such as checking if the match is completed
+        return match.getScore();
+    }
+    
+    /**
+     * View all recent scores from a tournament
+     * 
+     * @param tournament The tournament to view scores from
+     * @return List of match scores
+     */
+    public List<Score> viewTournamentScores(Tournament tournament) {
+        List<Score> scores = new ArrayList<>();
+        
+        for (Match match : tournament.getMatches()) {
+            Score score = match.getScore();
+            if (score != null) {
+                scores.add(score);
+            }
+        }
+        
+        return scores;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spectator spectator = (Spectator) o;
+        return Objects.equals(spectatorId, spectator.spectatorId);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(spectatorId);
+    }
+    
+    @Override
+    public String toString() {
+        return "Spectator{" +
+                "spectatorId=" + spectatorId +
+                ", user=" + (user != null ? user.getUsername() : "null") +
+                ", favoritePlayers=" + favoritePlayers.size() +
+                ", followedTournaments=" + followedTournaments.size() +
+                '}';
+    }
+}
