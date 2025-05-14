@@ -18,7 +18,14 @@ public class Bracket {
     
     @OneToMany(mappedBy = "bracket", cascade = CascadeType.ALL)
     private List<Match> matches;
-    
+
+    public Bracket(Tournament tournament) {
+    }
+
+    public Bracket() {
+
+    }
+
     // Getters and setters
     public Long getBracketId() {
         return bracketId;

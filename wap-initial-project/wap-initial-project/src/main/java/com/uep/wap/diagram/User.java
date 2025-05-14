@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,10 @@ public abstract class User {
         this.email = email;
         this.password = password;
     }
-    
+
+    public User(String username, String email, String password) {
+    }
+
     // Business methods
     public void createAccount() {
         // Implementation for account creation

@@ -89,4 +89,8 @@ public class Side {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    public boolean containsPlayer(Player player) {
+        return false;
+    }
 }

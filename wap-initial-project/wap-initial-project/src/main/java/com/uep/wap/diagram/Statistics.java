@@ -205,6 +205,7 @@ public class Statistics {
         int entityIndex = -1;
         
         // Determine which index in the scores array corresponds to this entity
+        Match match = new Match();
         if ("PLAYER".equals(entityType)) {
             // Logic to determine if player is side1 or side2
             Side side1 = match.getSide1();

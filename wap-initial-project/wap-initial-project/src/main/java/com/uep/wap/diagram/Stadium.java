@@ -1,5 +1,7 @@
 package com.uep.wap.diagram;
 
+
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -20,7 +22,7 @@ public class Stadium {
     @JoinTable(name = "stadium_event",
             joinColumns = @JoinColumn(name = "stadium_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private List<Event> events;
+    private List<Match> matches;
     
     // Getters and setters
     public Long getId() {
@@ -67,4 +69,4 @@ public class Stadium {
         return isAvailable;
     }
     
-    public void setAvailable(boolean isAvail
+    public void setAvailable(boolean isAvailable) {}; }

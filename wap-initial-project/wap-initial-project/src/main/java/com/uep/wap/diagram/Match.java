@@ -169,4 +169,15 @@ public class Match {
             players.add(player);
         }
     }
+
+    public void setComments(String comments) {
+    }
+
+    public Side getSide1() {
+        return null;
+    }
+
+    public Side getSide2() {
+        return null;
+    }
 }

@@ -68,13 +68,9 @@ public class TournamentOrganizer extends User {
     
     public void addTournament(Tournament tournament) {
         tournaments.add(tournament);
-        tournament.setOrganizer(this);
+        String tournamentOrganizer = getUsername();
     }
-    
-    public void removeTournament(Tournament tournament) {
-        tournaments.remove(tournament);
-        tournament.setOrganizer(null);
-    }
+
     
     public Tournament createTournament(String name, String startDate, String endDate,
                                       String format, String type, String location) {

@@ -7,7 +7,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "player")
 public class Player extends User {
-    
+
+    private int lossesCount;
+    private int winsCount;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,13 +29,15 @@ public class Player extends User {
     }
     
     public Player(Long userId, String username, String email, String password,
-                  Long playerId, String firstName, String lastName) {
+                  Long playerId, String firstName, String lastName, int winsCount, int lossesCount) {
         super(userId, username, email, password);
         this.id = playerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.statistics = new ArrayList<>();
         this.tournaments = new ArrayList<>();
+        this.winsCount = winsCount;
+        this.lossesCount = lossesCount;
     }
     
     // Getters and setters
@@ -106,5 +110,17 @@ public class Player extends User {
                 .filter(stat -> stat.getTournament().getId().equals(tournament.getId()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void incrementWins() {
+        winsCount++;
+    }
+
+    public void incrementLosses() {
+        lossesCount++;
+    }
+
+    public String getName() {
+        return lastName;
     }
 }
