@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Stadium {
+public class Stadium extends Match {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
