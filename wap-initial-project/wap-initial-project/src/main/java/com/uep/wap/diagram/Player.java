@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "player")
 public class Player extends User {
 
