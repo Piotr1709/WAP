@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "scores")
-public class Score {
+public class Score extends Match {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
