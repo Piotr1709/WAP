@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "statistics")
-public class Statistics {
+public class Statistics extends Player {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
