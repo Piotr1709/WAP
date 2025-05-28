@@ -1,11 +1,14 @@
 package com.uep.wap.diagram;
 
+import org.springframework.ui.Model;
+
 import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "match")
-public class Match {
+public class Match extends Side {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
