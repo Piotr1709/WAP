@@ -4,7 +4,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Bracket {
+public class Bracket extends Tournament {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +16,8 @@ public class Bracket {
     
     private int round;
     
-    @OneToMany(mappedBy = "bracket", cascade = CascadeType.ALL)
-    private List<Match> matches;
+//    @OneToMany(mappedBy = "bracket", cascade = CascadeType.ALL)
+//    private List<Match> matches;
 
     public Bracket(Tournament tournament) {
     }
@@ -51,13 +51,13 @@ public class Bracket {
         this.round = round;
     }
     
-    public List<Match> getMatches() {
-        return matches;
-    }
-    
-    public void setMatches(List<Match> matches) {
-        this.matches = matches;
-    }
+//    public List<Match> getMatches() {
+//        return matches;
+//    }
+//
+//    public void setMatches(List<Match> matches) {
+//        this.matches = matches;
+//    }
     
     // Business methods
     public void generateAutomatically() {
