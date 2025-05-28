@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import javax.persistence.*;
 
 @Entity
-public class Tournament {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Tournament extends Match {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
