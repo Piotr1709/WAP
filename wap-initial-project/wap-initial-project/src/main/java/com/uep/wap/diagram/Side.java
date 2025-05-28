@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "sides")
-public class Side {
+public class Side extends Team {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
