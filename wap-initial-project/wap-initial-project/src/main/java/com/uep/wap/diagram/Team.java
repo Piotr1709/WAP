@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "teams")
 public class Team {
     
